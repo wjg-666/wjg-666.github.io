@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/efb17885fa7dfbc1.png">
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/b4e62b03ac53ddf3.png">
 <meta property="article:published_time" content="2025-10-30T05:52:06.000Z">
-<meta property="article:modified_time" content="2025-11-06T09:33:57.906Z">
+<meta property="article:modified_time" content="2025-11-06T14:08:43.443Z">
 <meta property="article:author" content="wjg">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -848,11 +848,27 @@ e.g 100*10000<figure class="highlight plaintext"><table><tr><td class="gutter"><
 
 <h2 id="11-8-cmp指令"><a href="#11-8-cmp指令" class="headerlink" title="11.8 cmp指令"></a>11.8 cmp指令</h2><p><strong>cmp 为比较指令，相当于减法，但不保存结果。执行后会对标志寄存器产生影响。</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">格式:	cmp 操作对象1,操作对象2<br>功能:	计算操作对象1 - 操作对象2，不保存结果，仅仅根据计算结果对标志寄存器进行设置<br>;cmp ax,ax<br>;结果为0，指令执行后 ZF=1,PF=1,SF=0,CF=0,OF=0<br></code></pre></td></tr></table></figure>
-<h2 id="对于cmp-ax-bx，有如下分析"><a href="#对于cmp-ax-bx，有如下分析" class="headerlink" title="对于cmp ax,bx，有如下分析"></a><strong>对于cmp ax,bx，有如下分析</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs asm">if(ax==bx),(ax)-(bx) = 0,ZF=1<br>if(ax!=bx),(ax)-(bx)!=0,ZF=0<br>if(ax&lt;bx),(ax)-(bx)&lt;0,产生借位,CF=1<br>if(ax&gt;=bx),(ax)-(bx)&gt;=0,CF=0<br>if(ax&gt;bx),(ax)-(bx)&gt;0,CF=0 且 ZF=0<br>if(ax&lt;=bx),(ax)-(bx)&lt;=0,CF=1 或 ZF=1<br><br>if:<br>	ZF=1,说明(ax)=(bx)<br>	ZF=0,(ax)!=(bx)<br>	CF=1,(ax)&lt;(bx)<br>	CF=0,(ax)&gt;(bx)<br>	CF=0 且 ZF=0,(ax)&gt;(bx)<br>	CF=1 或 ZF=1,(ax)&lt;=(bx)<br></code></pre></td></tr></table></figure>
 
-<p>对有符号数进行比较时</p>
-<p><strong>对于	cmp ah,bh</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">if(ah==bh),(ah)-(bh)=0,ZF=1<br>if(ah!=bh),(ah)-(bh)!=0,ZF=0<br></code></pre></td></tr></table></figure>
+<p><strong>对于cmp ax,bx，有如下分析</strong></p>
+<ul>
+<li><pre><code class="asm">  if(ax==bx),(ax)-(bx) = 0,ZF=1
+  if(ax!=bx),(ax)-(bx)!=0,ZF=0
+  if(ax&lt;bx),(ax)-(bx)&lt;0,产生借位,CF=1
+  if(ax&gt;=bx),(ax)-(bx)&gt;=0,CF=0
+  if(ax&gt;bx),(ax)-(bx)&gt;0,CF=0 且 ZF=0
+  if(ax&lt;=bx),(ax)-(bx)&lt;=0,CF=1 或 ZF=1
+
+  if:
+      ZF=1,说明(ax)=(bx)
+      ZF=0,(ax)!=(bx)
+      CF=1,(ax)&lt;(bx)
+      CF=0,(ax)&gt;(bx)
+      CF=0 且 ZF=0,(ax)&gt;(bx)
+      CF=1 或 ZF=1,(ax)&lt;=(bx)
+</code></pre>
+</li>
+</ul>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><br>对有符号数进行比较时<br><br>**对于	<span class="hljs-keyword">cmp</span> <span class="hljs-number">ah</span>,<span class="hljs-number">bh</span>**<br><span class="hljs-string">```</span>asm<br>	if(<span class="hljs-number">ah</span>==<span class="hljs-number">bh</span>),(<span class="hljs-number">ah</span>)-(<span class="hljs-number">bh</span>)=<span class="hljs-number">0</span>,ZF=<span class="hljs-number">1</span><br>	if(<span class="hljs-number">ah</span>!=<span class="hljs-number">bh</span>),(<span class="hljs-number">ah</span>)-(<span class="hljs-number">bh</span>)!=<span class="hljs-number">0</span>,ZF=<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
 <p>1.如果SF&#x3D;1,OF&#x3D;0<br>OF&#x3D;0,没有溢出，逻辑上真正结果的正负&#x3D;实际结果的正负<br>SF&#x3D;1,实际结果为负数，所以逻辑上真正的结果为负，(ah)&lt;(bh)</p>
 <p>2.如果 sf &#x3D;1，of &#x3D;1<br>OF &#x3D;1，有溢出，逻辑上真正结果的正负与实际结果的正负不相等<br>SF &#x3D;1，实际结果为负<br><strong>如果因为溢出导致实际结果为负，那么逻辑上真正的结果为正(ah)&gt;(bh)</strong></p>
 <p>3.如果 sf &#x3D; 0,of &#x3D; 1<br>SF&#x3D;0，实际结果为非负，而 OF &#x3D;1 说明有溢出 ，结果为非 0 ，实际结果为正<br><strong>如果因为溢出导致实际结果为非负，那么逻辑上真正结果为负，(ah)&lt;(bh)</strong></p>
