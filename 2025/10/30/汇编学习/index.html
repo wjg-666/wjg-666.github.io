@@ -36,8 +36,9 @@
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/13d635b29f0a5e87.png">
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/1499879a-4532-4dcb-92bf-1bf1c37f50e2.png">
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/efb17885fa7dfbc1.png">
+<meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/b4e62b03ac53ddf3.png">
 <meta property="article:published_time" content="2025-10-30T05:52:06.000Z">
-<meta property="article:modified_time" content="2025-11-05T14:47:59.315Z">
+<meta property="article:modified_time" content="2025-11-06T09:33:57.906Z">
 <meta property="article:author" content="wjg">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -247,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          23k 字
+          27k 字
         
       </span>
     
@@ -258,7 +259,7 @@
         
         
         
-          193 分钟
+          229 分钟
         
       </span>
     
@@ -802,7 +803,107 @@ e.g 利用 loop 指令，实现在内存 2000H 段中查找第一个值为 0 的
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov sp,10h<br>mov ax,0123h<br>mov ds:[0],ax<br>mov word ptr ds:[2],0<br>call dword ptr ds:[0]				;进行两次压栈操作，sp-2-2,(cs)=0,(ip)=0123h,(sp)=0ch<br></code></pre></td></tr></table></figure>
 <p>e.g 下面程序执行后，ax 和 bx 值为多少</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs asm">assume cs:code<br>data segment<br>	dw 8 dup(0)<br>data ends<br>code segment<br>start:	mov ax,data				;3字节<br>		mov ss,ax				;2字节<br>		mov sp,10h				;3字节<br>		mov word ptr ss:[0],offset s				;7字节<br>		;ss:[0]=1ah<br><br>		mov ss:[2],cx			;4字节<br>		;ss:[2]=cs<br><br>		call dword ptr ss:[0]				;7字节<br><br>		nop<br>	s:	mov ax,offset s<br>		sub ax,ss:[0ch]				;4字节<br><br>		mov bx,cs<br>		sub bx,ss:[0eh]				;4字节<br>		mov ax,4c00h<br>		int 21h<br>code ends<br>end start<br></code></pre></td></tr></table></figure>
-<h2 id="10-7-call-和-ret-的配合使用"><a href="#10-7-call-和-ret-的配合使用" class="headerlink" title="10.7 call 和 ret 的配合使用"></a>10.7 call 和 ret 的配合使用</h2>
+<h2 id="10-7-call-和-ret-的配合使用"><a href="#10-7-call-和-ret-的配合使用" class="headerlink" title="10.7 call 和 ret 的配合使用"></a>10.7 call 和 ret 的配合使用</h2><p>e.g bx的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs asm">assume cs:code<br>code segment<br>start:	mov ax,1<br>		mov cx,3<br>		call s				;ip指向下一条指令，并压栈，将ip的值改为标号为s处的偏移地址<br><br>		mov bx,ax<br><br>		mov ax,4c00h<br>		int 21h<br>	s:	add ax,ax<br>		loop s				;ax=8<br>		ret					;前面压入的指令的偏移地址送入ip中。cs:ip指向mov bx,ax,从此开始执行命令。bx=8<br>code ends<br>end start<br></code></pre></td></tr></table></figure>
+<h2 id="10-8"><a href="#10-8" class="headerlink" title="10.8"></a>10.8</h2><ul>
+<li>mul 是乘法指令</li>
+<li>两个相乘的数位要一样，<strong>8位默认放在 AL</strong> 中，另一个放在8位 reg 或内存字节单元中；<strong>16位放在AX</strong>中，另一个放在16位 reg 或内存字单元中。</li>
+<li>8位乘法，结果默认放在 AX 中；16位，结果高位默认在 DX 中，低位 AX 中。<br>格式:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">mul reg<br>mul 内存单元<br></code></pre></td></tr></table></figure>
+内存单元可以用不同的寻址方式给出,比如:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asm">mul byte ptr ds:[0]				;(ax)=(al)*((ds)*16+0)<br><br>mul word ptr ds:[bx+si+8]		;(ax)=(ax)*((ds)*16+(bx)+(si)+8)结果的低16位,(dx)=(ax)*((ds)*16+(bx)+(si)+8)结果的高16位<br></code></pre></td></tr></table></figure>
+e.g 计算100*10<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,100<br>mov bl,10<br>mul bl				;(ax)=03E8h<br></code></pre></td></tr></table></figure>
+e.g 100*10000<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,100<br>mov bx,10000<br>mul bx				;(ax)=4240h,(dx)=000fh<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="10-10-参数和结果传递的问题"><a href="#10-10-参数和结果传递的问题" class="headerlink" title="10.10 参数和结果传递的问题"></a>10.10 参数和结果传递的问题</h2><p>e.g 计算data 段中的第一组数据的3次方，结果保存在后面一组dword单元中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs asm">assume cs:code<br>data segment<br>	dw 1,2,3,4,5,6,7,8<br>	dd 8 dup(0)<br>data ends<br>code segment<br>start:	mov ax,data<br>		mov ds,ax<br>		mov si,0				;ds:si指向第一组word单元<br>		mov di,16				;ds:di指向第二组dword单元<br><br>		mov cx,8<br>s:		mov bx,[si]<br>		call cube<br>		mov [si],ax<br>		mov [di].2,ds<br>		add si,2				;ds:si 指向下一个word单元<br>		add di,4				;ds:di 指向下一个dword单元<br>		loop s<br><br>		mov ax,4c00h<br>		int 21h<br>cube:	mov ax,bx<br>		mul bx<br>		mul bx<br>		ret<br>code ends<br>end start<br></code></pre></td></tr></table></figure>
+
+<h1 id="十一、标志寄存器"><a href="#十一、标志寄存器" class="headerlink" title="十一、标志寄存器"></a>十一、标志寄存器</h1><p>标志寄存器flag按位起作用<br><img src="/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/b4e62b03ac53ddf3.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="11-1-ZF标志-Zero-Flag"><a href="#11-1-ZF标志-Zero-Flag" class="headerlink" title="11.1 ZF标志(Zero Flag)"></a>11.1 ZF标志(Zero Flag)</h2><p>flag的第6位是ZF，零标志位。如果执行相关指令后，结果为0，ZF&#x3D;1;不为0，ZF&#x3D;0。</p>
+<h2 id="11-2-PF标志-Parity-Flag"><a href="#11-2-PF标志-Parity-Flag" class="headerlink" title="11.2 PF标志(Parity Flag)"></a>11.2 PF标志(Parity Flag)</h2><p>flag的第二位是PF，奇偶标志位。记录相关指令执行后，结果的所有bit位中1的个数是否为偶数，如果是偶数，PF&#x3D;1,如果是奇数，PF&#x3D;0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov al,1<br>add al,10				;00001011b,3个1，PF=0<br>mov al,1<br>or al,2					;00000011b,两个1，PF=1<br>sub al,al				;00000000b,零个1，PF=1<br></code></pre></td></tr></table></figure>
+<h2 id="11-3-SF标志-Sign-Flag"><a href="#11-3-SF标志-Sign-Flag" class="headerlink" title="11.3 SF标志(Sign Flag)"></a>11.3 SF标志(Sign Flag)</h2><p>flag第7位，符号标志位。记录执行指令后，结果是否为负。结果为负,SF&#x3D;1;如果非负,SF&#x3D;0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs asm">sub al,al				;ZF=1,PF=1,SF=0<br>muv al,1				;	1	1	0<br>push ax					;	1	1	0<br>pop	bx					;	1	1	0<br>;mov,push,pop等传送指令对标志寄存器没影响<br>add al,bl				;	0	0	0<br>add al,10				;	0	1	0	<br>mul al					;	0	1	0<br></code></pre></td></tr></table></figure>
+<h2 id="11-4-CF标志-Carry-Flag"><a href="#11-4-CF标志-Carry-Flag" class="headerlink" title="11.4 CF标志(Carry Flag)"></a>11.4 CF标志(Carry Flag)</h2><p>flag 第 0 位是 CF，进位标志位。一般情况下，在进行无符号运算时，记录了运算结果的最高有效位向跟高位的进位值，或从更高位的借位值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov al,98H<br>add al,al		;(al)=30H,CF=1,CF记录了从最高有效位向跟高位的进位值<br>add al,al		;(al)=60H,CF=0<br><br>mov al,97H<br>sub al,98H		;(al)=FFH,CF=1，CF记录了向更高位的借位值<br>sub al,al		;(al)=0,CF=0<br></code></pre></td></tr></table></figure>
+
+<h2 id="11-5-OF标志-Overflow-Flag"><a href="#11-5-OF标志-Overflow-Flag" class="headerlink" title="11.5 OF标志(Overflow Flag)"></a>11.5 OF标志(Overflow Flag)</h2><p>flag第11位是OF，溢出标志位。OF记录有符号数运算的结果是否发生溢出。溢出OF&#x3D;1没有OF&#x3D;0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov al,0f0h<br>add al,88h				;执行后，有符号运算时，0f0h+88h=-16+(-120),负溢出OF=1;无符号运算,0F0H+88H有进位,CF=1<br><br>mov al,0f0h<br>add al,78h				;执行后，有符号运算时，0f0h+78h=-16+120,无溢出OF=0;无符号运算0F0H+78H有进位,CF=1<br></code></pre></td></tr></table></figure>
+<p>e.g 下列每条指令执行后，ZF 、PF、SF、CF、OF等标志位的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asm">sub al,al				;ZF=1,PF=1,SF=0,CF=0,OF=0<br>mov al,10h				;	1	1	0	0	0<br>add al,90h				;	0	1	1	0	0<br>mov al,80h				;	0	1	1	0	0<br>add al,80h				;	1	1	0	1	1<br>mov al,0fch				;	1	1	0	1	1<br>add al,05h				;	0   0	0	1	0<br>mov al,7dh				;	0	0	0	1	0<br>add al,0bh				;	0	1	1	0	1<br></code></pre></td></tr></table></figure>
+<h2 id="11-6-adc指令"><a href="#11-6-adc指令" class="headerlink" title="11.6 adc指令"></a>11.6 adc指令</h2><h3 id="adc-为带进位加法指令"><a href="#adc-为带进位加法指令" class="headerlink" title="adc 为带进位加法指令"></a>adc 为带进位加法指令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">格式:	adc 操作对象1,操作对象2<br>功能:	操作对象1 = 操作对象1 + 操作对象2 + CF<br>;指令:	adc ax,bx<br>;(ax)=(ax)+(bx)+CF<br></code></pre></td></tr></table></figure>
+<p>e.g</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,2<br>mov bx,1<br>sub bx,ax<br>adc ax,1				;(ax)=4,(ax)+1+CF=4<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,1<br>add ax,ax<br>adc ax,3				;(ax)=2+3+CF=5<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov al,98h<br>add al,al<br>adc al,3				;(ax)=30h+3+CF=34h<br></code></pre></td></tr></table></figure>
+<p><strong>执行adc指令时，CF的值如果是被sub指令设置的，那么就是借位值，add指令设置时，是进位值</strong><br>加法可以分两部进行:</p>
+<ul>
+<li>低位相加，比如0198h和0183h。低位相加得1bh</li>
+<li>高位相加再加上低位相加的进位值。01+01+1&#x3D;03</li>
+</ul>
+<p>e.g 计算 001E F000 1000H + 0020 1000 1EF0H，结果放在 ax(最高 16 位)，bx(次高 16 位)，cx(低 16 位)中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,001EH<br>mov bx F000H<br>mov cx,1000H<br>add ax,0020H<br>add bx,1000H<br>add cx,1EF0H<br></code></pre></td></tr></table></figure>
+<h2 id="11-7-sbb指令"><a href="#11-7-sbb指令" class="headerlink" title="11.7 sbb指令"></a>11.7 sbb指令</h2><p><strong>sbb是带借位减法指令，利用CF位上记录的借位值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">sbb 操作对象1,操作对象2<br>操作对象1 = 操作对象1 - 操作对象2 - CF<br>;sbb ax,bx<br>;(ax)=(ax) - (bx) - CF<br></code></pre></td></tr></table></figure>
+<p>e.g 计算 003E 1000H - 0020 2000H,结果放在ax,bx中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov bx,1000H<br>mov ax,003EH<br>sub bx,2000H<br>sbb ax,0020H<br></code></pre></td></tr></table></figure>
+
+<h2 id="11-8-cmp指令"><a href="#11-8-cmp指令" class="headerlink" title="11.8 cmp指令"></a>11.8 cmp指令</h2><p><strong>cmp 为比较指令，相当于减法，但不保存结果。执行后会对标志寄存器产生影响。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">格式:	cmp 操作对象1,操作对象2<br>功能:	计算操作对象1 - 操作对象2，不保存结果，仅仅根据计算结果对标志寄存器进行设置<br>;cmp ax,ax<br>;结果为0，指令执行后 ZF=1,PF=1,SF=0,CF=0,OF=0<br></code></pre></td></tr></table></figure>
+<h2 id="对于cmp-ax-bx，有如下分析"><a href="#对于cmp-ax-bx，有如下分析" class="headerlink" title="对于cmp ax,bx，有如下分析"></a><strong>对于cmp ax,bx，有如下分析</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs asm">if(ax==bx),(ax)-(bx) = 0,ZF=1<br>if(ax!=bx),(ax)-(bx)!=0,ZF=0<br>if(ax&lt;bx),(ax)-(bx)&lt;0,产生借位,CF=1<br>if(ax&gt;=bx),(ax)-(bx)&gt;=0,CF=0<br>if(ax&gt;bx),(ax)-(bx)&gt;0,CF=0 且 ZF=0<br>if(ax&lt;=bx),(ax)-(bx)&lt;=0,CF=1 或 ZF=1<br><br>if:<br>	ZF=1,说明(ax)=(bx)<br>	ZF=0,(ax)!=(bx)<br>	CF=1,(ax)&lt;(bx)<br>	CF=0,(ax)&gt;(bx)<br>	CF=0 且 ZF=0,(ax)&gt;(bx)<br>	CF=1 或 ZF=1,(ax)&lt;=(bx)<br></code></pre></td></tr></table></figure>
+
+<p>对有符号数进行比较时</p>
+<p><strong>对于	cmp ah,bh</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">if(ah==bh),(ah)-(bh)=0,ZF=1<br>if(ah!=bh),(ah)-(bh)!=0,ZF=0<br></code></pre></td></tr></table></figure>
+<p>1.如果SF&#x3D;1,OF&#x3D;0<br>OF&#x3D;0,没有溢出，逻辑上真正结果的正负&#x3D;实际结果的正负<br>SF&#x3D;1,实际结果为负数，所以逻辑上真正的结果为负，(ah)&lt;(bh)</p>
+<p>2.如果 sf &#x3D;1，of &#x3D;1<br>OF &#x3D;1，有溢出，逻辑上真正结果的正负与实际结果的正负不相等<br>SF &#x3D;1，实际结果为负<br><strong>如果因为溢出导致实际结果为负，那么逻辑上真正的结果为正(ah)&gt;(bh)</strong></p>
+<p>3.如果 sf &#x3D; 0,of &#x3D; 1<br>SF&#x3D;0，实际结果为非负，而 OF &#x3D;1 说明有溢出 ，结果为非 0 ，实际结果为正<br><strong>如果因为溢出导致实际结果为非负，那么逻辑上真正结果为负，(ah)&lt;(bh)</strong></p>
+<p>4.sf &#x3D;0,of &#x3D;0<br>没有溢出，实际结果为非负，(ah)&gt;&#x3D;(bh)</p>
+<h2 id="11-9-检测比较结果的条件转移指令"><a href="#11-9-检测比较结果的条件转移指令" class="headerlink" title="11.9 检测比较结果的条件转移指令"></a>11.9 检测比较结果的条件转移指令</h2><p>“转移”指它能修改IP,”条件”指它可以根据某种条件，决定是否修改IP</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>含义</th>
+<th>检测的相关标志位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>je</td>
+<td>等于则转移</td>
+<td>ZF &#x3D; 1</td>
+</tr>
+<tr>
+<td>jne</td>
+<td>不等于则转移</td>
+<td>ZF &#x3D; 0</td>
+</tr>
+<tr>
+<td>jb</td>
+<td>低于则转移</td>
+<td>CF &#x3D; 1</td>
+</tr>
+<tr>
+<td>jnb</td>
+<td>不低于则转移</td>
+<td>CF &#x3D; 0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>高于则转移</td>
+<td>CF &#x3D; 0 且 ZF &#x3D; 0</td>
+</tr>
+<tr>
+<td>jna</td>
+<td>不高于则转移</td>
+<td>CF &#x3D; 1 或 ZF &#x3D; 1</td>
+</tr>
+</tbody></table>
+<p>e.g 统计data段中数值小于8的字节个数,用ax保存统计结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs asm">		mov ax,data<br>		mov ds,ax<br>		mov ax,0<br>		mov bx,0<br>		mov cx,9<br>s:	cmp byte ptr [bx],8<br>		jnb next<br>		inc ax<br>next:	inc bx<br>		loop s<br></code></pre></td></tr></table></figure>
+<p>统计F000:0处32个字节中，大小在[32,128]的数据个数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs asm">		mov ax,f000h<br>		mov ds,ax<br>		mov bx,0<br>		mov dx,0<br>		mov cx,32<br>s:		mov al,[bx]<br>		cmp al,32<br>		jb s0<br>		cmp al,128<br>		jae s0<br>		inc bx<br>s0:		inc bx<br>		loop s<br></code></pre></td></tr></table></figure>
+
+
+
                 
               </div>
             
