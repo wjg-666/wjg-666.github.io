@@ -35,8 +35,13 @@
 <meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-15-47.png">
 <meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-23-09.png">
 <meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-24-37.png">
+<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_10-39-40.png">
+<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_10-42-56.png">
+<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_10-45-41.png">
+<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_11-04-28.png">
+<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_11-06-52.png">
 <meta property="article:published_time" content="2025-11-05T14:40:03.000Z">
-<meta property="article:modified_time" content="2025-11-05T15:28:51.312Z">
+<meta property="article:modified_time" content="2025-11-07T03:22:57.194Z">
 <meta property="article:author" content="wjg">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -246,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          606 字
+          1.9k 字
         
       </span>
     
@@ -257,7 +262,7 @@
         
         
         
-          6 分钟
+          17 分钟
         
       </span>
     
@@ -315,6 +320,15 @@
 <h2 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h2><p>根据 enflag.txt 文件名推测，源文件可能是 flag.txt。</p>
 <p>加密和解密在很多情况下是可逆的，也就是说，如果知道了加密的算法和密钥，那么就可以通过相同的方式来解密。<br>复制一份 enflag.txt ，重命名为 flag.txt。</p>
 <p>重新打开 exe 文件，选择 1。打开成功。密钥刚刚已经计算出来了：<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-23-09.png" srcset="/img/loading.gif" lazyload><br>打开enflag.txt，可以看到被解密的flag。<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-24-37.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="三、re3"><a href="#三、re3" class="headerlink" title="三、re3"></a>三、re3</h1><p>—占位—</p>
+<h1 id="四、re4"><a href="#四、re4" class="headerlink" title="四、re4"></a>四、re4</h1><h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>先运行一下程序<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_10-39-40.png" srcset="/img/loading.gif" lazyload><br>发现是一个对输入的数字进行校验的程序<br>拖入DIE中发现是一个64位PE程序无壳<br>这里我们进入ida中，分析其main函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_10-42-56.png" srcset="/img/loading.gif" lazyload><br>第七行有一个读取用户输入的逻辑，然后sub_1400010E0()函数对输入的进行操作<br>进入sub_1400010E0()函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_10-45-41.png" srcset="/img/loading.gif" lazyload><br>分析发现第21行和第22行是关键逻辑，我们这里单独分析</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">a1 = &amp;a4890572163qwe[<span class="hljs-number">-26</span> * (v3 / <span class="hljs-number">26</span>)];<br>v5 = a1[v3]<br></code></pre></td></tr></table></figure>
+<p>分析发现这两行代码可以合并为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">v5 = a4890572163qwe[<span class="hljs-number">-26</span> * (v3 / <span class="hljs-number">26</span>) + v3];<br></code></pre></td></tr></table></figure>
+<p>这里我们假设输入的为1<br>v5 &#x3D; &amp;a4890572163qwe[-26*(1&#x2F;26) + 1] &#x3D; &amp;a4890572163qwe[1]<br>1 &#x2F; 26 &#x3D; 0<br>结束循环<br>假设输入的为28<br>v5 &#x3D; &amp;a4890572163qwe[-26*(28&#x2F;26) + 28] &#x3D; &amp;a4890572163qwe[28]<br>28 &#x2F; 26 &#x3D; 1<br>v5 &#x3D; &amp;a4890572163qwe[-26*(1&#x2F;26) + 1] &#x3D; &amp;a4890572163qwe[1]<br>1 &#x2F; 26 &#x3D; 1<br>结束循环<br>所以这里的一个逻辑为：对输入的数字进行26进制取模，然后通过索引在对应字符串(*&amp;^%489$!057@#&gt;&lt;:2163qwe)中找到相应的数，放入v9中，直到模为0<br>发现第25行和第32行是对字符串进行存入和取出，为sub_1400011E0()函数中对v7进行(XOR)异或操作做准备<br>进入sub_1400011E0函数中发现，该函数是一个动态分配内存空间的函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_11-04-28.png" srcset="/img/loading.gif" lazyload><br>我们继续进入下一个函数sub_140001220()函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_11-06-52.png" srcset="/img/loading.gif" lazyload><br>这里我们发现这个函数主要进行的是比较逻辑，两个if就是判断异或结果与字符串的比较结果是否相同<br>判断结果将影响v4与v7的值，而从打印结果</p>
+<h2 id="逆向脚本"><a href="#逆向脚本" class="headerlink" title="逆向脚本"></a>逆向脚本</h2><p>这里我们反推，先将’&#x2F;..v4p$$!&gt;Y59-‘密文与7异或得到v7也就是存储在v9中的字符串，然后根据v7中的字符找到’)(*&amp;^%489$!057@#&gt;&lt;:2163qwe’对应的索引，然后乘26，就得到flag<br>写出脚本:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">str1 = <span class="hljs-string">&quot;/..v4p$$!&gt;Y59-&quot;</span><br>str2 = <span class="hljs-string">&quot;)(*&amp;^%489$!057@#&gt;&lt;:2163qwe&quot;</span><br>v7 = <span class="hljs-string">&quot;&quot;</span><br>a = []<br>flag = <span class="hljs-number">0</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(str1)):<br>    v7 += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str1[i])^<span class="hljs-number">7</span>)<br><br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> v7:<br>    a.append(str2.index(j))<br><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>    flag *= <span class="hljs-number">26</span><br>    flag += a[k]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;flag&#123;&#123;<span class="hljs-subst">&#123;flag&#125;</span>&#125;&#125;&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>得flag{2484524302484524302}</p>
 
                 
               </div>
