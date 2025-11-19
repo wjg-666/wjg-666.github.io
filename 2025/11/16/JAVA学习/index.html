@@ -19,42 +19,22 @@
   <meta name="author" content="wjg">
   <meta name="keywords" content="blog, tech">
   
-    <meta name="description" content="一、签到题先拖进DIE里面查看一下发现是一个64位的ELF文件，直接拖进IDA里面查看一下发现flag{7ujm8ikhy6} 二、re2解法一先运行一下程序查看运行后直接拖入ida,32位程序无壳分析了一下进入主要的函数逻辑中逻辑比较简单，可以看到对两个文件进行读写操作我们跟进第一个关键函数一个简单的异或脚本可以计算出str1 12345str &#x3D; &quot;DH~mqqvqxB^||zll@">
+    <meta name="description" content="一、JAVA语言基础知识1.1 基本语法1.1.1 创建变量并命名它们变量命名规则。 1.1.2 在你的程序中创建原始类型变量用于创建和初始化原始类型变量的语法下表总结了数据类型的默认值。    数据类型 默认值    byte 0   short 0   int 0   long 0L   float 0.0f   double 0.0d   char ‘\u0000’   boolean fa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ctf_show Reverse部分的题目复现">
-<meta property="og:url" content="https://wjg-666.github.io/2025/11/05/ctf_show_reverse/index.html">
+<meta property="og:title" content="JAVA学习">
+<meta property="og:url" content="https://wjg-666.github.io/2025/11/16/JAVA%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="wjg_blog">
-<meta property="og:description" content="一、签到题先拖进DIE里面查看一下发现是一个64位的ELF文件，直接拖进IDA里面查看一下发现flag{7ujm8ikhy6} 二、re2解法一先运行一下程序查看运行后直接拖入ida,32位程序无壳分析了一下进入主要的函数逻辑中逻辑比较简单，可以看到对两个文件进行读写操作我们跟进第一个关键函数一个简单的异或脚本可以计算出str1 12345str &#x3D; &quot;DH~mqqvqxB^||zll@">
+<meta property="og:description" content="一、JAVA语言基础知识1.1 基本语法1.1.1 创建变量并命名它们变量命名规则。 1.1.2 在你的程序中创建原始类型变量用于创建和初始化原始类型变量的语法下表总结了数据类型的默认值。    数据类型 默认值    byte 0   short 0   int 0   long 0L   float 0.0f   double 0.0d   char ‘\u0000’   boolean fa">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_22-56-15.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_22-58-43.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-00-42.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-02-36.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-06-04.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-09-55.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-15-47.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-23-09.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_23-24-37.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_10-39-40.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_10-42-56.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_10-45-41.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_11-04-28.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-07_11-06-52.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-19_16-25-54.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-19_16-28-30.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-19_16-31-24.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-19_16-36-10.png">
-<meta property="og:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-19_16-39-47.png">
-<meta property="article:published_time" content="2025-11-05T14:40:03.000Z">
-<meta property="article:modified_time" content="2025-11-19T08:41:21.500Z">
+<meta property="article:published_time" content="2025-11-16T11:52:00.000Z">
+<meta property="article:modified_time" content="2025-11-17T13:45:46.836Z">
 <meta property="article:author" content="wjg">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wjg-666.github.io/images/ctf_show_reverse/Snipaste_2025-11-05_22-56-15.png">
   
   
   
-  <title>ctf_show Reverse部分的题目复现 - wjg_blog</title>
+  <title>JAVA学习 - wjg_blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -233,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="ctf_show Reverse部分的题目复现"></span>
+            <span id="subtitle" data-typed-text="JAVA学习"></span>
           
         </div>
 
@@ -244,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-11-05 22:40" pubdate>
-          2025年11月5日 晚上
+        <time datetime="2025-11-16 19:52" pubdate>
+          2025年11月16日 晚上
         </time>
       </span>
     
@@ -256,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          768 字
         
       </span>
     
@@ -267,7 +247,7 @@
         
         
         
-          20 分钟
+          7 分钟
         
       </span>
     
@@ -313,56 +293,74 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">ctf_show Reverse部分的题目复现</h1>
+            <h1 id="seo-header">JAVA学习</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="一、签到题"><a href="#一、签到题" class="headerlink" title="一、签到题"></a>一、签到题</h1><p>先拖进DIE里面查看一下<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_22-56-15.png" srcset="/img/loading.gif" lazyload><br>发现是一个64位的ELF文件，直接拖进IDA里面查看一下<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_22-58-43.png" srcset="/img/loading.gif" lazyload><br>发现flag{7ujm8ikhy6}</p>
-<h1 id="二、re2"><a href="#二、re2" class="headerlink" title="二、re2"></a>二、re2</h1><h2 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h2><p>先运行一下程序查看<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-00-42.png" srcset="/img/loading.gif" lazyload><br>运行后直接拖入ida,32位程序无壳<br>分析了一下进入主要的函数逻辑中<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-02-36.png" srcset="/img/loading.gif" lazyload><br>逻辑比较简单，可以看到对两个文件进行读写操作<br>我们跟进第一个关键函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-06-04.png" srcset="/img/loading.gif" lazyload><br>一个简单的异或脚本可以计算出str1</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;DH~mqqvqxB^||zll@Jq~jkwpmvez&#123;&quot;</span><br>str2 = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">str</span>:<br>    str2 += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(i)^<span class="hljs-number">0x1f</span>)<br><span class="hljs-built_in">print</span>(str2)<br></code></pre></td></tr></table></figure>
-<p>然后跟进下一个函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-09-55.png" srcset="/img/loading.gif" lazyload><br>我们现在不认识这些，扔进ai让它分析一下<br>发现是RC4算法，根据前面计算出的str1我们可以知道他是密钥，然后我们把enflag.txt的内容拖入winHex中得到其16进制，然后放入解密工具中<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-15-47.png" srcset="/img/loading.gif" lazyload><br>得到flag{RC4&amp;-&gt;ENc0d3F1le}<br>(等后面学习了密码学在写脚本进行解密)</p>
-<h2 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h2><p>根据 enflag.txt 文件名推测，源文件可能是 flag.txt。</p>
-<p>加密和解密在很多情况下是可逆的，也就是说，如果知道了加密的算法和密钥，那么就可以通过相同的方式来解密。<br>复制一份 enflag.txt ，重命名为 flag.txt。</p>
-<p>重新打开 exe 文件，选择 1。打开成功。密钥刚刚已经计算出来了：<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-23-09.png" srcset="/img/loading.gif" lazyload><br>打开enflag.txt，可以看到被解密的flag。<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-05_23-24-37.png" srcset="/img/loading.gif" lazyload></p>
-<h1 id="三、re3"><a href="#三、re3" class="headerlink" title="三、re3"></a>三、re3</h1><p>—占位—</p>
-<h1 id="四、re4"><a href="#四、re4" class="headerlink" title="四、re4"></a>四、re4</h1><h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>先运行一下程序<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_10-39-40.png" srcset="/img/loading.gif" lazyload><br>发现是一个对输入的数字进行校验的程序<br>拖入DIE中发现是一个64位PE程序无壳<br>这里我们进入ida中，分析其main函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_10-42-56.png" srcset="/img/loading.gif" lazyload><br>第七行有一个读取用户输入的逻辑，然后sub_1400010E0()函数对输入的进行操作<br>进入sub_1400010E0()函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_10-45-41.png" srcset="/img/loading.gif" lazyload><br>分析发现第21行和第22行是关键逻辑，我们这里单独分析</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">a1 = &amp;a4890572163qwe[<span class="hljs-number">-26</span> * (v3 / <span class="hljs-number">26</span>)];<br>v5 = a1[v3]<br></code></pre></td></tr></table></figure>
-<p>分析发现这两行代码可以合并为</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">v5 = a4890572163qwe[<span class="hljs-number">-26</span> * (v3 / <span class="hljs-number">26</span>) + v3];<br></code></pre></td></tr></table></figure>
-<p>这里我们假设输入的为1<br>v5 &#x3D; &amp;a4890572163qwe[-26*(1&#x2F;26) + 1] &#x3D; &amp;a4890572163qwe[1]<br>1 &#x2F; 26 &#x3D; 0<br>结束循环<br>假设输入的为28<br>v5 &#x3D; &amp;a4890572163qwe[-26*(28&#x2F;26) + 28] &#x3D; &amp;a4890572163qwe[28]<br>28 &#x2F; 26 &#x3D; 1<br>v5 &#x3D; &amp;a4890572163qwe[-26*(1&#x2F;26) + 1] &#x3D; &amp;a4890572163qwe[1]<br>1 &#x2F; 26 &#x3D; 1<br>结束循环<br>所以这里的一个逻辑为：对输入的数字进行26进制取模，然后通过索引在对应字符串(*&amp;^%489$!057@#&gt;&lt;:2163qwe)中找到相应的数，放入v9中，直到模为0<br>发现第25行和第32行是对字符串进行存入和取出，为sub_1400011E0()函数中对v7进行(XOR)异或操作做准备<br>进入sub_1400011E0函数中发现，该函数是一个动态分配内存空间的函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_11-04-28.png" srcset="/img/loading.gif" lazyload><br>我们继续进入下一个函数sub_140001220()函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-07_11-06-52.png" srcset="/img/loading.gif" lazyload><br>这里我们发现这个函数主要进行的是比较逻辑，两个if就是判断异或结果与字符串的比较结果是否相同<br>判断结果将影响v4与v7的值，而从打印结果</p>
-<h2 id="逆向脚本"><a href="#逆向脚本" class="headerlink" title="逆向脚本"></a>逆向脚本</h2><p>这里我们反推，先将’&#x2F;..v4p$$!&gt;Y59-‘密文与7异或得到v7也就是存储在v9中的字符串，然后根据v7中的字符找到’)(*&amp;^%489$!057@#&gt;&lt;:2163qwe’对应的索引，然后乘26，就得到flag<br>写出脚本:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">str1 = <span class="hljs-string">&quot;/..v4p$$!&gt;Y59-&quot;</span><br>str2 = <span class="hljs-string">&quot;)(*&amp;^%489$!057@#&gt;&lt;:2163qwe&quot;</span><br>v7 = <span class="hljs-string">&quot;&quot;</span><br>a = []<br>flag = <span class="hljs-number">0</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(str1)):<br>    v7 += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str1[i])^<span class="hljs-number">7</span>)<br><br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> v7:<br>    a.append(str2.index(j))<br><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>    flag *= <span class="hljs-number">26</span><br>    flag += a[k]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;flag&#123;&#123;<span class="hljs-subst">&#123;flag&#125;</span>&#125;&#125;&quot;</span>)<br></code></pre></td></tr></table></figure>
-<p>得flag{2484524302484524302}</p>
-<h1 id="五、逆向5"><a href="#五、逆向5" class="headerlink" title="五、逆向5"></a>五、逆向5</h1><p><img src="/images/ctf_show_reverse/Snipaste_2025-11-19_16-25-54.png" srcset="/img/loading.gif" lazyload><br>查看主函数逻辑，调用两个函数后进行if判断，判断结果不为0时，直接弹出错误，我们进入函数sub_4020B0()后发现其作用不大，进入sub_4015BD(1)函数<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-19_16-28-30.png" srcset="/img/loading.gif" lazyload><br>发现一个if判断，在第六行打上断点一会好调试，在if判断中，str[1]&#x3D;1后，就会把sub_401520()函数的返回值存入result和readdr中，我们进入sub_401520()函数中查看<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-19_16-31-24.png" srcset="/img/loading.gif" lazyload><br>发现其调用了1.dll里的东西，在看for循环里面，在return处打上断点，这里是输出flag的关键位置，因为sub_40163E()函数中出现putchar，说明计算出flag然后输出<br>这里我们进行动调<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-19_16-36-10.png" srcset="/img/loading.gif" lazyload><br>这里发现cmp在对al和1比较后出现一个jnz,说明str[1]不为1就会跳入locret_4015D6处，这里我们令ZF&#x3D;1，就可以跳过if判断，直接进入for循环，我们跳过后直接F9运行程序，flag会输出到终端上<br><img src="/images/ctf_show_reverse/Snipaste_2025-11-19_16-39-47.png" srcset="/img/loading.gif" lazyload></p>
-
+                <h1 id="一、JAVA语言基础知识"><a href="#一、JAVA语言基础知识" class="headerlink" title="一、JAVA语言基础知识"></a>一、JAVA语言基础知识</h1><h2 id="1-1-基本语法"><a href="#1-1-基本语法" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h2><h3 id="1-1-1-创建变量并命名它们"><a href="#1-1-1-创建变量并命名它们" class="headerlink" title="1.1.1 创建变量并命名它们"></a>1.1.1 创建变量并命名它们</h3><p>变量命名规则。</p>
+<h3 id="1-1-2-在你的程序中创建原始类型变量"><a href="#1-1-2-在你的程序中创建原始类型变量" class="headerlink" title="1.1.2 在你的程序中创建原始类型变量"></a>1.1.2 在你的程序中创建原始类型变量</h3><p>用于创建和初始化原始类型变量的语法<br>下表总结了数据类型的默认值。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>0</td>
+</tr>
+<tr>
+<td>short</td>
+<td>0</td>
+</tr>
+<tr>
+<td>int</td>
+<td>0</td>
+</tr>
+<tr>
+<td>long</td>
+<td>0L</td>
+</tr>
+<tr>
+<td>float</td>
+<td>0.0f</td>
+</tr>
+<tr>
+<td>double</td>
+<td>0.0d</td>
+</tr>
+<tr>
+<td>char</td>
+<td>‘\u0000’</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>reference types</td>
+<td>null</td>
+</tr>
+</tbody></table>
+<h3 id="1-1-3-在你的程序中创建数组"><a href="#1-1-3-在你的程序中创建数组" class="headerlink" title="1.1.3 在你的程序中创建数组"></a>1.1.3 在你的程序中创建数组</h3><h3 id="1-1-4-使用-Var-类型标识符"><a href="#1-1-4-使用-Var-类型标识符" class="headerlink" title="1.1.4 使用 Var 类型标识符"></a>1.1.4 使用 Var 类型标识符</h3><p>从 Java SE 10 开始，您可以使用类型标识符声明局部变量。这样做时，您可以让编译器决定您创建的变量的实际类型是什么。创建后，无法更改此类型。var<br>e.g </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">message</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Hello, World!&quot;</span>;<br><span class="hljs-type">Path</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> Path.of(<span class="hljs-string">&quot;debug.log&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>在这种情况下，必须声明两个变量的显式类型 ，并且是多余的<br>使用类型标识符，前面的代码可以编写如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">var</span> <span class="hljs-variable">message</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Hello, World!&quot;</span>;<br><span class="hljs-type">var</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> Path.of(<span class="hljs-string">&quot;debug.log&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p><strong>使用var的限制</strong></p>
+<ol>
+<li>不能在类、实例字段或方法参数中使用 var。</li>
+<li>不能在循环中使用 var。</li>
+<li>不能在 catch 子句中使用 var。<br>e.g <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>  &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">var</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Sue&quot;</span>; <span class="hljs-comment">// COMPILER ERROR</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(<span class="hljs-keyword">var</span> name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="1-1-5-在程序中使用运算符"><a href="#1-1-5-在程序中使用运算符" class="headerlink" title="1.1.5 在程序中使用运算符"></a>1.1.5 在程序中使用运算符</h3><h3 id="1-1-6-运算符总结"><a href="#1-1-6-运算符总结" class="headerlink" title="1.1.6 运算符总结"></a>1.1.6 运算符总结</h3><h3 id="1-1-7-表达式、语句与块"><a href="#1-1-7-表达式、语句与块" class="headerlink" title="1.1.7 表达式、语句与块"></a>1.1.7 表达式、语句与块</h3><h3 id="1-1-8-控制流程语句"><a href="#1-1-8-控制流程语句" class="headerlink" title="1.1.8 控制流程语句"></a>1.1.8 控制流程语句</h3><h3 id="1-1-9-切换语句的分支"><a href="#1-1-9-切换语句的分支" class="headerlink" title="1.1.9 切换语句的分支"></a>1.1.9 切换语句的分支</h3><h3 id="1-1-10-切换表达式的分支"><a href="#1-1-10-切换表达式的分支" class="headerlink" title="1.1.10 切换表达式的分支"></a>1.1.10 切换表达式的分支</h3><h2 id="1-2-程序的生命周期"><a href="#1-2-程序的生命周期" class="headerlink" title="1.2 程序的生命周期"></a>1.2 程序的生命周期</h2>
                 
               </div>
             
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Reverse/" class="category-chain-item">Reverse</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
     <div class="post-meta">
@@ -380,8 +378,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>ctf_show Reverse部分的题目复现</div>
-      <div>https://wjg-666.github.io/2025/11/05/ctf_show_reverse/</div>
+      <div>JAVA学习</div>
+      <div>https://wjg-666.github.io/2025/11/16/JAVA学习/</div>
     </div>
     <div class="license-meta">
       
@@ -393,7 +391,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年11月5日</div>
+          <div>2025年11月16日</div>
         </div>
       
       
@@ -425,18 +423,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/11/16/JAVA%E5%AD%A6%E4%B9%A0/" title="JAVA学习">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JAVA学习</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/10/30/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/" title="汇编学习">
-                        <span class="hidden-mobile">汇编学习</span>
+                      <a href="/2025/11/05/ctf_show_reverse/" title="ctf_show Reverse部分的题目复现">
+                        <span class="hidden-mobile">ctf_show Reverse部分的题目复现</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

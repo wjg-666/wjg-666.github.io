@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/efb17885fa7dfbc1.png">
 <meta property="og:image" content="https://wjg-666.github.io/images/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/b4e62b03ac53ddf3.png">
 <meta property="article:published_time" content="2025-10-30T05:52:06.000Z">
-<meta property="article:modified_time" content="2025-11-06T14:08:43.443Z">
+<meta property="article:modified_time" content="2025-11-17T13:32:22.732Z">
 <meta property="article:author" content="wjg">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          27k 字
+          30k 字
         
       </span>
     
@@ -259,7 +259,7 @@
         
         
         
-          229 分钟
+          249 分钟
         
       </span>
     
@@ -918,8 +918,97 @@ e.g 100*10000<figure class="highlight plaintext"><table><tr><td class="gutter"><
 <p>统计F000:0处32个字节中，大小在[32,128]的数据个数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs asm">		mov ax,f000h<br>		mov ds,ax<br>		mov bx,0<br>		mov dx,0<br>		mov cx,32<br>s:		mov al,[bx]<br>		cmp al,32<br>		jb s0<br>		cmp al,128<br>		jae s0<br>		inc bx<br>s0:		inc bx<br>		loop s<br></code></pre></td></tr></table></figure>
 
+<h2 id="11-10-DF标志和串传送指令"><a href="#11-10-DF标志和串传送指令" class="headerlink" title="11.10 DF标志和串传送指令"></a>11.10 DF标志和串传送指令</h2><p>flag第10位，方向标志位。在串处理指令中，控制每次操作后si,di的增减<br>df &#x3D; 0 每次操作后si、di递增<br>df &#x3D; 1 每次操作后si、di递减</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs asm">movsb<br>相当于：<br>((es)*16+(di))=((ds)*16+(si))<br>如果df=0:	(si)=(si)+1<br>			(di)=(di)+1<br>如果df=1:	(si)=(si)-1<br>			(di)=(di)-1<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">movsw<br>将ds:si指向内存单元的字送入es:di中，根据标志寄存器df位的值，将si、di递增2或递减2<br></code></pre></td></tr></table></figure>
+<p>8086CPU提供两条指令对df位进行设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">cld 指令:将标志寄存器的df位置0<br>std 指令:将标志寄存器的df位置1<br></code></pre></td></tr></table></figure>
+<p>e.g 用串传送指令，将F000H段中的最后16个字符复制到data段中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs asm">data segment<br>	db 16 dup(0)<br>data ends<br>code segment<br>	mov ax,0f000h<br>	mov ds,ax<br>	mov si,0ffffh				;ds:si指向f000:ffff<br>	mov ax,data<br>	mov es,ax<br>	mov di,15					;es:di指向data:000f<br>	mov cx,16<br>	std							;设置f=1,逆向传送<br>	rep movsb<br></code></pre></td></tr></table></figure>
 
+<h2 id="11-11-pushf和popf"><a href="#11-11-pushf和popf" class="headerlink" title="11.11 pushf和popf"></a>11.11 pushf和popf</h2><p>pushf是将标志寄存器的值压栈，popf是出栈送入标志寄存器中<br>e.g (ax)&#x3D;?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,0<br>push ax<br>popf<br>mov ax,0fff0h<br>add ax,0010h<br>pushf<br>popf				;0 0 0 0 of df if tf sf zf 0 af 0 pf 0 cf<br>					;0 0 0 0 0  0  *  *  0  1  0 *  0 1  0  1<br>					;ax=flag=000000**010*0101b<br>and al,11000101b	;al=01000101b=45h<br>and ah,00001000b	;ah=00000000b=0h<br>;ax=45h<br></code></pre></td></tr></table></figure>
+<h2 id="11-12-标志寄存器在Debug中的表示"><a href="#11-12-标志寄存器在Debug中的表示" class="headerlink" title="11.12 标志寄存器在Debug中的表示"></a>11.12 标志寄存器在Debug中的表示</h2><table>
+<thead>
+<tr>
+<th>标志</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OF</td>
+<td>OV</td>
+<td>NV</td>
+</tr>
+<tr>
+<td>ZF</td>
+<td>NG</td>
+<td>PL</td>
+</tr>
+<tr>
+<td>PF</td>
+<td>PE</td>
+<td>PO</td>
+</tr>
+<tr>
+<td>CF</td>
+<td>CY</td>
+<td>NC</td>
+</tr>
+<tr>
+<td>DF</td>
+<td>DN</td>
+<td>UP</td>
+</tr>
+</tbody></table>
+<h1 id="十二、内中断"><a href="#十二、内中断" class="headerlink" title="十二、内中断"></a>十二、内中断</h1><h2 id="12-1-内中断的产生"><a href="#12-1-内中断的产生" class="headerlink" title="12.1 内中断的产生"></a>12.1 内中断的产生</h2><p>对于8086CPU，有以下情况会产生中断</p>
+<ul>
+<li>除法错误，比如div指令产生的除法溢出</li>
+<li>单步执行</li>
+<li>into 指令</li>
+<li>int 指令<br>中断源在8086CPU中的中断类型</li>
+<li>除法错误：0</li>
+<li>单步执行：1</li>
+<li>into指令：4</li>
+<li>int指令：格式为int n,n为字节型立即数，是提供给CPU的中断类型码</li>
+</ul>
+<h2 id="12-3-中断向量表"><a href="#12-3-中断向量表" class="headerlink" title="12.3 中断向量表"></a>12.3 中断向量表</h2><p>对于8086PC机，中断向量表指定放在内存地址0处。从内存0000:0000到0000:03ff的1024个单元中存放着中断向量表。<br>e.g </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">0000:0000 68 10 A7 00 8B 01 70 00-16 00 9D 03 8B 01 70 00<br>;3号中断源对应的中断处理程序的入口地址为：0070:018B<br></code></pre></td></tr></table></figure>
+<p><strong>一个表项存放一个中断向量，也就是一个中断处理程序的入口地址，入口地址包括段地址和偏移地址，一个表项占两个字，高地址存放段地址，低地址存放偏移地址</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">	存储 N 号中断源对应的中断处理程序入口的偏移地址的内存单元的地址为:4N<br>段地址的内存单元地址为:4N+2<br></code></pre></td></tr></table></figure>
 
+<h2 id="12-4-中断过程"><a href="#12-4-中断过程" class="headerlink" title="12.4 中断过程"></a>12.4 中断过程</h2><p>8086CPU中断过程</p>
+<ul>
+<li>取得字段类型码N</li>
+<li>标志寄存器入栈,TF&#x3D;0,IF&#x3D;0</li>
+<li>push CS</li>
+<li>push IP</li>
+<li>(IP) &#x3D; (N<em>4),(CS) &#x3D; (N</em>4+2)</li>
+</ul>
+<h2 id="12-5-中断处理程序和iret指令"><a href="#12-5-中断处理程序和iret指令" class="headerlink" title="12.5 中断处理程序和iret指令"></a>12.5 中断处理程序和iret指令</h2><p>中断处理程序的编写方法</p>
+<ul>
+<li>保存用到的寄存器</li>
+<li>处理中断</li>
+<li>恢复用到的寄存器</li>
+<li>用iret指令返回<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asm">pop IP<br>pop CS<br>popf<br></code></pre></td></tr></table></figure>
+<strong>在中断过程中，寄存器入栈顺序是标志寄存器，CS，IP。iret 出栈顺序是 IP，CS，标志寄存器</strong></li>
+</ul>
+<h2 id="12-9-do0"><a href="#12-9-do0" class="headerlink" title="12.9 do0"></a>12.9 do0</h2><p>do0程序的主要任务是显示字符串<br>e.g 显示”overflow”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs asm">assume cs:code<br><br>code segment<br>start:	mov ax,cx<br>		mov ds,ax<br>		mov si,offset do0				;设置ds:si指向源地址<br>		mov ax,0<br>		mov es,ax<br>		mov di,200h						;设置es:di指向目的地址为0000:0200h<br>		mov cx,offset do0end-offset do0	;设置cx为字符串长度<br>		cld<br>		rep movsb						;将字符串复制到0000:0200h<br>		;设置中断向量表<br><br>		mov ax,4c0h<br>		int 21h<br>do0:	jmp short do0start<br>		db &quot;overflow&quot;<br>do0start:	mov ax,cs<br>			mov ds,ax<br>			mov si,202h					;ds:si指向字符串，jmp指令占两个字节，所以偏移地址为202h	<br>			mov ax,0b800h<br>			mov es,ax<br>			mov si,12*160+36*2			;es:di指向显存空间的中间位置<br><br>			mov cx,9						;设置cx为字符串长度	<br>	s:		mov al,[si]<br>			mov es:[di],al<br>			inc si<br>			add di,2<br>			loop s<br><br>			mov ax,4c0h<br>			int 21h<br>	do0end:	nop<br>	code:ends<br>	end start<br>	;将标号 do0 到标号 do0end 之间的内容送到 0000:0200处<br></code></pre></td></tr></table></figure>
+
+<h2 id="12-10-设置中断向量"><a href="#12-10-设置中断向量" class="headerlink" title="12.10 设置中断向量"></a>12.10 设置中断向量</h2><p>将 do0 的入口地址 0:200 写入中断向量表的 0 号表项中，使 do0 成为 0 号中断的中断处理程序</p>
+<p>0 号表项的地址为 0：0，其中 0：0 字单元存放偏移地址，0：2字单元存放段地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">mov ax,0<br>moc es,ax<br>mov word ptr es:[0*4],200h<br>mov word ptr es:[0*4+2],0<br></code></pre></td></tr></table></figure>
+
+<h2 id="12-11-单步中断"><a href="#12-11-单步中断" class="headerlink" title="12.11 单步中断"></a>12.11 单步中断</h2><p>CPU在执行完一条指令后，如果检测到标志寄存器的TF位为1，则产生单步中断，引发中断过程</p>
+<ul>
+<li>取得中断类型码为1</li>
+<li>标志寄存器入栈，TF、IF设置为0</li>
+<li>CS、IP入栈</li>
+<li>（IP）&#x3D;（1<em>4），（CS）&#x3D;（1</em>4+2）</li>
+</ul>
+<h1 id="十三、int指令"><a href="#十三、int指令" class="headerlink" title="十三、int指令"></a>十三、int指令</h1>
                 
               </div>
             
